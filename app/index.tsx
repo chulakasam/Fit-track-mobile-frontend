@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     signInText: {
-        fontSize: 28,
+        fontSize: 20,
         color: "#fff",
         fontWeight: "300",
         marginBottom: 30,
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     },
     signInButtonText: {
         color: "#fff",
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: "bold",
     },
 });

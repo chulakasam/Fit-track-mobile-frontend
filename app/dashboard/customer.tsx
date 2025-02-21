@@ -1,261 +1,136 @@
-import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {useDispatch, useSelector} from "react-redux";
-import {useState} from "react";
-import {CustomerModel} from "../../models/CustomerModel";
-import {addCustomer, deleteCustomer, updateCustomer} from "../../reducers/CustomerSlice";
+import React, { useState } from "react";
+import { View, Text, TextInput, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { LinearGradient } from "expo-linear-gradient";
 
-function Customer() {
-    const dispatch = useDispatch();
-    const customers = useSelector(state => state.customers);
+const FitnessDashboard = () => {
+    const [workoutType, setWorkoutType] = useState("Running");
+    const [duration, setDuration] = useState("");
+    const [goal, setGoal] = useState("");
+    const [progress, setProgress] = useState("");
 
-
-    const [id, setId] = useState("")
-    const [name, setName] = useState("")
-    const [nic, setNic] = useState("")
-    const [email, setEmail] = useState("")
-    const [phone, setPhone] = useState("")
-    const [isEditing, setIsEditing] = useState(false)
-
-    const handleAdd = () => {
-        if (!name || !nic || !email || !phone) {
-            alert("All fields are required!")
-            return
-        }
-        const newCustomer = new CustomerModel(name, nic, email, phone);
-        dispatch(addCustomer(newCustomer));
-        alert("customer added successfully!");
-        resetForm();
-
-    }
-
-    const handleEdit = (customer: CustomerModel) => {
-        // setId(customer.id)
-        setName(customer.name)
-        setNic(customer.nic)
-        setEmail(customer.email)
-        setPhone(customer.phone)
-        setIsEditing(true)
-    }
-
-    const handleUpdate = () => {
-        if (!id || !name || !nic || !email || !phone) {
-            alert("All fields are required!")
-            return
-        }
-        const updateCust = new CustomerModel(name, nic, email, phone);
-        dispatch(updateCustomer(updateCust));
-        alert("Successfully Updated");
-        resetForm();
-    }
-
-    const handleDelete = (customerEmail: string) => {
-        if (window.confirm("Are you sure you want to delete this customer?")) {
-            dispatch(deleteCustomer(customerEmail));
-        }
-    }
-
-    const resetForm = () => {
-        setId("")
-        setName("")
-        setNic("")
-        setEmail("")
-        setPhone("")
-        setIsEditing(false)
-    }
-    const renderItem = ({ item }: { item: CustomerModel }) => (
-        <TouchableOpacity style={styles.row} onPress={() => handleEdit(item)}>
-            <Text style={styles.cell}>{"1"}</Text>
-            <Text style={styles.cell}>{item.name}</Text>
-            <Text style={styles.cell}>{item.nic}</Text>
-            <Text style={styles.cell}>{item.email}</Text>
-            <Text style={styles.cell}>{item.phone}</Text>
-            <View style={styles.actionCell}>
-                <TouchableOpacity onPress={() => handleDelete(item.email)} style={styles.deleteButton}>
-                    Delete
-                </TouchableOpacity>
-            </View>
-        </TouchableOpacity>
-    );
+    const handleSubmit = () => {
+        console.log("Workout Type:", workoutType);
+        console.log("Duration:", duration);
+        console.log("Goal:", goal);
+        console.log("Progress:", progress);
+    };
 
     return (
-        <View>
-            {/*<TextInput placeholder="Id" value={id} onChangeText={setId} />*/}
-            {/*<TextInput placeholder="Name" value={name} onChangeText={setName} />*/}
-            {/*<TextInput placeholder="NIC" value={nic} onChangeText={setNic} />*/}
-            {/*<TextInput placeholder="Email" value={email} onChangeText={setEmail} />*/}
-            {/*<TextInput placeholder="Phone" value={phone} onChangeText={setPhone} />*/}
+        <LinearGradient colors={["#001f3f", "#1c2833"]} style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <Text style={styles.title}>Fitness Dashboard</Text>
 
-            <Text style={styles.header}>Customer Form</Text>
-
-            <TextInput
-                placeholder="Id"
-                value={id}
-                onChangeText={setId}
-                style={styles.input}
-            />
-            <TextInput
-                placeholder="Name"
-                value={name}
-                onChangeText={setName}
-                style={styles.input}
-            />
-            <TextInput
-                placeholder="NIC"
-                value={nic}
-                onChangeText={setNic}
-                style={styles.input}
-            />
-            <TextInput
-                placeholder="Email"
-                value={email}
-                onChangeText={setEmail}
-                style={styles.input}
-            />
-            <TextInput
-                placeholder="Phone"
-                value={phone}
-                onChangeText={setPhone}
-                style={styles.input}
-            />
-
-
-            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                {isEditing ? (
-                    <TouchableOpacity
-                        onPress={handleUpdate}
-                        style={{
-                            backgroundColor: '#3b82f6', // Blue color
-                            padding: 10,
-                            borderRadius: 5,
-                            marginRight: 10,
-                        }}
+                <View style={styles.card}>
+                    <Text style={styles.label}>Workout Type</Text>
+                    <Picker
+                        selectedValue={workoutType}
+                        onValueChange={(itemValue) => setWorkoutType(itemValue)}
+                        style={styles.picker}
                     >
-                        <Text style={{ color: 'white' }}>Update</Text>
-                    </TouchableOpacity>
-                ) : (
-                    <TouchableOpacity
-                        onPress={handleAdd}
-                        style={{
-                            backgroundColor: '#10b981', // Green color
-                            padding: 10,
-                            borderRadius: 5,
-                            marginRight: 10,
-                        }}
-                    >
-                        <Text style={{ color: 'white' }}>Add</Text>
-                    </TouchableOpacity>
-                )}
-                {isEditing && (
-                    <TouchableOpacity
-                        onPress={resetForm}
-                        style={{
-                            backgroundColor: '#6b7280', // Gray color
-                            padding: 10,
-                            borderRadius: 5,
-                        }}
-                    >
-                        <Text style={{ color: 'white' }}>Cancel</Text>
-                    </TouchableOpacity>
-                )}
-            </View>
-
-            {/* Customer List */}
-            <View style={styles.tableContainer}>
-                <View style={styles.header}>
-                    <Text style={styles.headerCell}>ID</Text>
-                    <Text style={styles.headerCell}>Name</Text>
-                    <Text style={styles.headerCell}>NIC</Text>
-                    <Text style={styles.headerCell}>Email</Text>
-                    <Text style={styles.headerCell}>Phone</Text>
-                    <Text style={styles.headerCell}>Actions</Text>
+                        <Picker.Item label="Running" value="Running" />
+                        <Picker.Item label="Cycling" value="Cycling" />
+                        <Picker.Item label="Swimming" value="Swimming" />
+                        <Picker.Item label="Gym" value="Gym" />
+                    </Picker>
                 </View>
 
-                <FlatList data={customers} renderItem={renderItem} keyExtractor={(item) => item.email} />
-            </View>
+                <View style={styles.card}>
+                    <Text style={styles.label}>Duration (minutes)</Text>
+                    <TextInput
+                        style={styles.input}
+                        keyboardType="numeric"
+                        placeholder="Enter duration"
+                        placeholderTextColor="#888"
+                        value={duration}
+                        onChangeText={setDuration}
+                    />
+                </View>
 
+                <View style={styles.card}>
+                    <Text style={styles.label}>Fitness Goal</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Enter your goal"
+                        placeholderTextColor="#888"
+                        value={goal}
+                        onChangeText={setGoal}
+                    />
+                </View>
 
-        </View>
+                <View style={styles.card}>
+                    <Text style={styles.label}>Progress Notes</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Enter progress notes"
+                        placeholderTextColor="#888"
+                        value={progress}
+                        onChangeText={setProgress}
+                    />
+                </View>
+
+                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                    <Text style={styles.buttonText}>Submit Workout</Text>
+                </TouchableOpacity>
+            </ScrollView>
+        </LinearGradient>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+    },
+    scrollContainer: {
         padding: 16,
     },
-    inputContainer: {
-        flexDirection: "column",
-        gap: 10,
+    title: {
+        fontSize: 26,
+        fontWeight: "bold",
+        marginBottom: 10,
+        color: "#fff",
+        textAlign: "center",
+    },
+    card: {
+        padding: 16,
+        backgroundColor: "#ffffff",
+        borderRadius: 12,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 4,
         marginBottom: 16,
+    },
+    label: {
+        fontSize: 18,
+        fontWeight: "600",
+        color: "#333",
+    },
+    picker: {
+        marginTop: 8,
     },
     input: {
         borderWidth: 1,
-        borderColor: "#ccc",
-        padding: 10,
+        borderColor: "#bbb",
+        padding: 12,
         borderRadius: 8,
+        marginTop: 8,
+        fontSize: 16,
+        color: "#000",
     },
-    buttonContainer: {
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        marginBottom: 10,
-    },
-    addButton: {
-        backgroundColor: "#10b981",
-        padding: 10,
-        borderRadius: 5,
-        marginRight: 10,
-    },
-    updateButton: {
-        backgroundColor: "#3b82f6",
-        padding: 10,
-        borderRadius: 5,
-        marginRight: 10,
-    },
-    cancelButton: {
-        backgroundColor: "#6b7280",
-        padding: 10,
-        borderRadius: 5,
+    button: {
+        backgroundColor: "#2980b9",
+        padding: 16,
+        borderRadius: 10,
+        alignItems: "center",
+        marginTop: 10,
     },
     buttonText: {
-        color: "white",
-        textAlign: "center",
-    },
-    tableContainer: {
-        marginTop: 10,
-        borderWidth: 1,
-        borderColor: "#ccc",
-        borderRadius: 8,
-        overflow: "hidden",
-    },
-    header: {
-        flexDirection: "row",
-        backgroundColor: "#e5e7eb",
-        paddingVertical: 10,
-    },
-    headerCell: {
-        flex: 1,
+        fontSize: 18,
         fontWeight: "bold",
-        textAlign: "center",
+        color: "#fff",
     },
-    row: {
-        flexDirection: "row",
-        borderBottomWidth: 1,
-        borderBottomColor: "#ccc",
-        paddingVertical: 10,
-    },
-    cell: {
-        flex: 1,
-        textAlign: "center",
-    },
-    actionCell: {
-        flex: 0.5,
-        alignItems: "center",
-    },
-    deleteButton: {
-        backgroundColor: "#ef4444",
-        padding: 8,
-        borderRadius: 5,
-    },
-
 });
 
-export default Customer;
+export default FitnessDashboard;

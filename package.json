@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.1",
+    "@react-native-picker/picker": "^2.11.0",
     "@react-navigation/drawer": "^7.1.1",
     "@reduxjs/toolkit": "^2.5.1",
+    "components": "^0.1.0",
     "expo": "~52.0.31",
     "expo-constants": "~17.0.5",
+    "expo-linear-gradient": "~14.0.2",
     "expo-linking": "~7.0.5",
     "expo-router": "~4.0.17",
     "expo-status-bar": "~2.0.1",
@@ -27,8 +30,10 @@
     "react-native-screens": "~4.4.0",
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.19.13",
-    "react-redux": "^9.2.0",
-    "expo-linear-gradient": "~14.0.2"
+    "react-redux": "^9.2.0"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@types/react-native": "^0.72.8"
+  }
 }
