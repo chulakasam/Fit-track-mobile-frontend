@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { View, Text, TextInput, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { LinearGradient } from "expo-linear-gradient";
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "../../store/Store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/Store";
 import WorkOut from "../../models/WorkOut";
-import {savingWorkOut} from "../../reducers/WorkOutSlice";
-import {useNavigation} from "@react-navigation/native";
-
+import { savingWorkOut } from "../../reducers/WorkOutSlice";
+import { useNavigation } from "@react-navigation/native";
 
 const FitnessDashboard = () => {
     const [workoutType, setWorkoutType] = useState("Running");
@@ -23,14 +22,14 @@ const FitnessDashboard = () => {
         console.log("Goal:", goal);
         console.log("Progress:", progress);
 
-        const workOut = new WorkOut(workoutType,duration,goal,progress);
+        const workOut = new WorkOut(workoutType, duration, goal, progress);
 
         dispatch(savingWorkOut(workOut));
         navigation.navigate("customer");
     };
 
     return (
-        <LinearGradient colors={["#001f3f", "#1c2833"]} style={styles.container}>
+        <LinearGradient colors={["#2c3e50", "#7f8c8d"]} style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <Text style={styles.title}>Fitness Dashboard</Text>
 
@@ -93,55 +92,69 @@ const FitnessDashboard = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingTop: 50,
     },
     scrollContainer: {
         padding: 16,
     },
     title: {
-        fontSize: 26,
-        fontWeight: "bold",
+        fontSize: 28,
+        fontWeight: "700",
         marginBottom: 10,
         color: "#fff",
         textAlign: "center",
+        letterSpacing: 1.5,
+        textTransform: "uppercase",
     },
     card: {
-        padding: 16,
-        backgroundColor: "#ffffff",
+        padding: 20,
+        backgroundColor: "#2f3640",
         borderRadius: 12,
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
-        elevation: 4,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+        elevation: 5,
         marginBottom: 16,
+        overflow: "hidden",
     },
     label: {
         fontSize: 18,
         fontWeight: "600",
-        color: "#333",
+        color: "#fff",
+        marginBottom: 8,
     },
     picker: {
         marginTop: 8,
+        height: 50,
+        borderWidth: 1,
+        borderColor: "#7f8c8d",
+        borderRadius: 8,
+        color: "grey",
     },
     input: {
         borderWidth: 1,
-        borderColor: "#bbb",
+        borderColor: "#16a085",
         padding: 12,
-        borderRadius: 8,
+        borderRadius: 10,
         marginTop: 8,
         fontSize: 16,
-        color: "#000",
+        color: "#fff",
+        backgroundColor: "#34495e",
+        shadowOpacity: 0.1,
     },
     button: {
-        backgroundColor: "#2980b9",
+        backgroundColor: "#16a085",
         padding: 16,
-        borderRadius: 10,
+        borderRadius: 12,
         alignItems: "center",
-        marginTop: 10,
+        marginTop: 20,
+        shadowOpacity: 0.2,
+        elevation: 6,
     },
     buttonText: {
         fontSize: 18,
-        fontWeight: "bold",
+        fontWeight: "600",
         color: "#fff",
     },
 });
