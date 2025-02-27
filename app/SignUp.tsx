@@ -1,22 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-    Text,
-    StyleSheet,
-    TextInput,
-    Pressable,
-    View,
-    Animated,
-} from "react-native";
+import { Text, StyleSheet, TextInput, Pressable, View, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import {navigate} from "expo-router/build/global-state/routing";
-import {useNavigation} from "@react-navigation/native";
 
-export default function Index() {
+export default function Signup() {
     const router = useRouter();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
     const slideAnim = useRef(new Animated.Value(300)).current;
 
@@ -28,31 +20,32 @@ export default function Index() {
         }).start();
     }, [slideAnim]);
 
-    function handleLogin() {
-        if (email === "user" && password === "1234") {
-            router.replace("/dashboard");
+    function handleSignUp() {
+        if (email === "" || password === "") {
+            alert("Please fill all the fields");
+            return;
         }
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
+
+
+        console.log("User registered with email:", email);
+
+
+        router.replace("/placeOrder/ClientDetails");
     }
 
-
-
     return (
-        <LinearGradient
-            colors={["#001B51", "#0D100C"]}
-            style={styles.gradientBackground}
-        >
-
+        <LinearGradient colors={["#001B51", "#0D100C"]} style={styles.gradientBackground}>
             <View style={styles.topContainer}>
-                <Text style={styles.greetingText}>Hello</Text>
-                <Text style={styles.signInText}>Sign In</Text>
+                <Text style={styles.greetingText}>Create Account</Text>
+                <Text style={styles.signInText}>Sign Up</Text>
             </View>
 
-
             <Animated.View
-                style={[
-                    styles.formContainer,
-                    { transform: [{ translateY: slideAnim }] },
-                ]}
+                style={[styles.formContainer, { transform: [{ translateY: slideAnim }] }]}
             >
                 <Text style={styles.label}>Email</Text>
                 <TextInput
@@ -73,27 +66,31 @@ export default function Index() {
                     onChangeText={setPassword}
                 />
 
-                <Pressable onPress={() => { /*I use To Handle forgot password */ }}>
-                    <Text style={styles.forgotPasswordText}>Forgot password?</Text>
-                </Pressable>
+                <Text style={styles.label}>Confirm Password</Text>
+                <TextInput
+                    style={styles.inputField}
+                    placeholder="******"
+                    placeholderTextColor="#999"
+                    secureTextEntry
+                    onChangeText={setConfirmPassword}
+                />
 
                 <Pressable
                     style={({ pressed }) => [
-                        styles.signInButton,
-                        pressed && styles.signInButtonPressed,
+                        styles.signUpButton,
+                        pressed && styles.signUpButtonPressed,
                     ]}
-                    onPress={handleLogin}
+                    onPress={handleSignUp}
                 >
-                    <Text style={styles.signInButtonText}>Sign In</Text>
+                    <Text style={styles.signUpButtonText}>Sign Up</Text>
                 </Pressable>
             </Animated.View>
 
-
             <View style={styles.bottomContainer}>
                 <View style={styles.signUpContainer}>
-                    <Text style={styles.signUpPrompt}>Don’t have an account?</Text>
-                    <Pressable onPress={() => router.replace("/SignUp")}>
-                        <Text style={styles.signUpText}>Sign Up</Text>
+                    <Text style={styles.signUpPrompt}>Already have an account?</Text>
+                    <Pressable onPress={() => router.replace("/dashboard")}>
+                        <Text style={styles.signUpText}>Login</Text>
                     </Pressable>
                 </View>
             </View>
@@ -164,15 +161,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         fontSize: 16,
         color: "#333",
-        marginBottom: 25,
+        marginBottom: 5,
     },
-    forgotPasswordText: {
-        alignSelf: "flex-end",
-        color: "#007BFF",
-        marginBottom: 30,
-        fontSize: 14,
-    },
-    signInButton: {
+    signUpButton: {
         backgroundColor: "#007BFF",
         paddingVertical: 25,
         borderRadius: 10,
@@ -180,13 +171,12 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         height: "20%",
     },
-    signInButtonPressed: {
+    signUpButtonPressed: {
         backgroundColor: "#0056b3",
     },
-    signInButtonText: {
+    signUpButtonText: {
         color: "#fff",
         fontSize: 20,
         fontWeight: "bold",
     },
 });
-
