@@ -1,4 +1,3 @@
-import {CustomerModel} from "../models/CustomerModel";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import Client from "../models/Client";
 import axios from "axios";

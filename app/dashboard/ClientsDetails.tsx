@@ -155,13 +155,13 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         padding: 20,
-        backgroundColor: "#f7f7f7",
+        backgroundColor: "#0e4855",
         alignItems: "center",
     },
     header: {
         fontSize: 26,
         fontWeight: "bold",
-        color: "#333",
+        color: "#ffffff",
         marginBottom: 20,
         textAlign: "center",
     },

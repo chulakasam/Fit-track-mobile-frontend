@@ -2,18 +2,27 @@ import React, { useState } from "react";
 import { View, Text, TextInput, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { LinearGradient } from "expo-linear-gradient";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../store/Store";
+import WorkOut from "../../models/WorkOut";
+import {savingWorkOut} from "../../reducers/WorkOutSlice";
 
 const FitnessDashboard = () => {
     const [workoutType, setWorkoutType] = useState("Running");
     const [duration, setDuration] = useState("");
     const [goal, setGoal] = useState("");
     const [progress, setProgress] = useState("");
+    const dispatch = useDispatch<AppDispatch>();
 
     const handleSubmit = () => {
         console.log("Workout Type:", workoutType);
         console.log("Duration:", duration);
         console.log("Goal:", goal);
         console.log("Progress:", progress);
+
+        const workOut = new WorkOut(workoutType,duration,goal,progress);
+
+        dispatch(savingWorkOut(workOut));
     };
 
     return (

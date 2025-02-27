@@ -16,7 +16,5 @@ export default class Client{
         this.dob =dob;
         this.gender = gender;
         this.image = image;
-
-
     }
 }
