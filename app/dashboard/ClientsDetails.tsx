@@ -14,6 +14,8 @@ import { useDispatch } from "react-redux";
 import { savingClient } from "../../reducers/ClientSlice";
 import { AppDispatch } from "../../store/Store";
 import Client from "../../models/Client";
+import { useNavigation } from "@react-navigation/native";
+
 
 const ClientDetailsForm = () => {
     const [name, setName] = useState("");
@@ -24,6 +26,7 @@ const ClientDetailsForm = () => {
     const [gender, setGender] = useState("");
     const [image, setImage] = useState<any>(null);
     const dispatch = useDispatch<AppDispatch>();
+    const navigation = useNavigation();
 
     const handleSelectImage = () => {
         launchImageLibrary(
@@ -64,6 +67,7 @@ const ClientDetailsForm = () => {
 
         console.log("Client Details:", client);
         Alert.alert("Success", "Client details saved locally!");
+        navigation.navigate("workout");
     };
 
     return (

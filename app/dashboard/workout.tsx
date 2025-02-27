@@ -6,6 +6,8 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../store/Store";
 import WorkOut from "../../models/WorkOut";
 import {savingWorkOut} from "../../reducers/WorkOutSlice";
+import {useNavigation} from "@react-navigation/native";
+
 
 const FitnessDashboard = () => {
     const [workoutType, setWorkoutType] = useState("Running");
@@ -13,6 +15,7 @@ const FitnessDashboard = () => {
     const [goal, setGoal] = useState("");
     const [progress, setProgress] = useState("");
     const dispatch = useDispatch<AppDispatch>();
+    const navigation = useNavigation();
 
     const handleSubmit = () => {
         console.log("Workout Type:", workoutType);
@@ -23,6 +26,7 @@ const FitnessDashboard = () => {
         const workOut = new WorkOut(workoutType,duration,goal,progress);
 
         dispatch(savingWorkOut(workOut));
+        navigation.navigate("customer");
     };
 
     return (
